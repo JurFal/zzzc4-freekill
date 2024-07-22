@@ -5,6 +5,7 @@ local zzzc4_xue = require "packages/zzzc4/zzzc4_xue"]]
 
 Fk:loadTranslationTable{
     ["zzzc4"] = "班杀",
+    ["zzz"] = "紫",
   }
 
 
@@ -129,15 +130,12 @@ local ty__langmie = fk.CreateTriggerSkill{
 ]]
 local zzz_yyouya = fk.CreateTriggerSkill{
     name = "zzz_yyouya",
-    events = {fk.EventPhaseStart},
     anim_type = "drawcard",
+    events = {fk.TurnEnd},
     can_trigger = function(self, event, target, player, data)
-      return target.phase == Player.Finish and player:hasSkill(self) and player:getHandcardNum() ~= player.hp
+      return player:hasSkill(self) and player:getHandcardNum() ~= player.hp
     end,
-    on_cost = function(self, event, target, player, data)
-      return player:hasSkill(self) and player.room:askForSkillInvoke(player, self.name, nil, "#zzz_yyouya-invoke")
-    end,
-    on_trigger = function(self, event, target, player, data)
+    on_use = function(self, event, target, player, data)
       local room = player.room
       if not player:hasSkill(self) then return end
       if player:getHandcardNum() < player.hp then
@@ -155,7 +153,17 @@ local zzz_yyouya = fk.CreateTriggerSkill{
   
 zzz_youya:addSkill(zzz_yyouya)
 zzz_youya:addSkill("songci")
- 
+
+Fk:loadTranslationTable{
+  ["zzz_youya"] = "尤雅",
+  ["#zzz_youya"] = "诗画怡红",
+  ["designer:zzzYouya"] = "zlc",
+	["illustrator:zzzYouya"] = "msh",
+	["zzz_yyouya"] = "优雅",
+	[":zzz_yyouya"] = "一名角色的回合结束时，若你的手牌数小于体力值，你可以摸一张牌；若你的手牌数大于体力值，你可以回复1点体力。",
+}
+
+
 
 return {
     extension,
